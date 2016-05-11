@@ -9,10 +9,11 @@ void startPanels(){
 //------------------ Panel: Startup ArduCam OSD LOGO -------------------------------
 
 void panLogo(){
-//    osd.setPanel(7, 4);
-//    osd.openPanel();
+    osd.setPanel(7, 6);
+    osd.openPanel();
 //    osd.printf_P(PSTR("\x20\x20\x20\x20\x20\x20\xba\xbb\xbc\xbd\xbe|\x20\x20\x20\x20\x20\x20\xca\xcb\xcc\xcd\xce|ArduCAM OSD v2.2"));
-//    osd.closePanel();
+    osd.printf_P(PSTR("HUMBIRD OSD"));
+    osd.closePanel();
 }
 
 /******* PANELS - POSITION *******/
@@ -689,6 +690,7 @@ void panBatt_A(int first_col, int first_line){
 //------------------ Panel: Waiting for MAVLink HeartBeats -------------------------------
 
 void panWaitMAVBeats(int first_col, int first_line){
+    osd.clear();
     panLogo();
     osd.setPanel(first_col, first_line);
     osd.openPanel();
