@@ -9,7 +9,7 @@ void startPanels(){
 //------------------ Panel: Startup ArduCam OSD LOGO -------------------------------
 
 void panLogo(){
-    osd.setPanel(7, 6);
+    osd.setPanel(8, 6);
     osd.openPanel();
 //    osd.printf_P(PSTR("\x20\x20\x20\x20\x20\x20\xba\xbb\xbc\xbd\xbe|\x20\x20\x20\x20\x20\x20\xca\xcb\xcc\xcd\xce|ArduCAM OSD v2.2"));
     osd.printf_P(PSTR("HUMBIRD OSD"));
