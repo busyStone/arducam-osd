@@ -172,6 +172,8 @@ void readPanelSettings() {
     panHorizon_XY[0][panel] = readEEPROM(panHorizon_x_ADDR + offset);
     panHorizon_XY[1][panel] = checkPAL(readEEPROM(panHorizon_y_ADDR + offset));
 
+    //****** Fourth set of 8 Panels ******
+
     setBit(panD_REG[panel], Warn_BIT, readEEPROM(panWarn_en_ADDR + offset));
     panWarn_XY[0][panel] = readEEPROM(panWarn_x_ADDR + offset);
     panWarn_XY[1][panel] = checkPAL(readEEPROM(panWarn_y_ADDR + offset));
@@ -199,6 +201,10 @@ void readPanelSettings() {
     setBit(panD_REG[panel], CALLSIGN_BIT, readEEPROM(panCALLSIGN_en_ADDR + offset));
     panCALLSIGN_XY[0][panel] = readEEPROM(panCALLSIGN_x_ADDR + offset);
     panCALLSIGN_XY[1][panel] = checkPAL(readEEPROM(panCALLSIGN_y_ADDR + offset));
+
+    setBit(panD_REG[panel], RSSI_BIT, readEEPROM(panRSSI_en_ADDR + offset));
+    panRSSI_XY[0] = readEEPROM(panRSSI_x_ADDR + offset);
+    panRSSI_XY[1] = checkPAL(readEEPROM(panRSSI_y_ADDR + offset));
 }
 
 int checkPAL(int line){
