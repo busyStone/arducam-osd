@@ -494,7 +494,10 @@ void panWarn(int first_col, int first_line){
                     if ((osd_airspeed * converts) > (float)overspeed) warning_type = 3;
                     break;
                 case 4:
-                    if (osd_vbat_A < float(battv)/10.0 || osd_battery_remaining_A < batt_warn_level) warning_type = 4;
+                    if (osd_vbat_A < float(battv)/10.0) // || osd_battery_remaining_A < batt_warn_level) 
+                    { // humbird only have voltage monitor
+                        warning_type = 4;
+                    }
                     break;
                 case 5:
                     if (rssi < rssi_warn_level && rssi != -99 && !rssiraw_on) warning_type = 5;
