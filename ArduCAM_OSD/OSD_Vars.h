@@ -173,3 +173,17 @@ static uint16_t     osd_chan6_raw = 1000;
 static uint16_t     osd_chan7_raw = 1000;
 static uint16_t     osd_chan8_raw = 1000;
 
+//
+#define MAX_MSG_SIZE 26
+#define MAX_ANIMATE_CNT 3
+#define LOOP_CNT_ANIMATE_NEED 3 // not every loop animate, when done display one char
+#define LOOP_CNT_DISP_DUR 60 // message will display untill 60 loop
+
+byte mav_message[52]; // in MavLink max isize is 50byte mav_msg_ttl;
+byte mav_msg_len;
+byte mav_msg_severity;
+
+byte mav_msg_animate_cnt;
+byte mav_msg_animate_loop_cnt;
+byte mav_msg_disp_loop_cnt;
+

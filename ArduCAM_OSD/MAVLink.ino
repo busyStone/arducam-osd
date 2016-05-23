@@ -144,6 +144,28 @@ void read_mavlink(){
                     osd_windspeedz = mavlink_msg_wind_get_speed_z(&msg); //m/s
                 }
                 break;
+            case MAVLINK_MSG_ID_STATUSTEXT:
+                mav_msg_severity = mavlink_msg_statustext_get_severity(&msg);
+                if(MAV_SEVERITY_INFO >= mav_msg_severity) {
+                    byte len = mavlink_msg_statustext_get_text(&msg, (char *)mav_message);
+                    mav_message[len]=0;
+
+                    char *cp = (char *)&mav_message[len]; // remove tail spaces
+                    for(;;) {
+                        byte c = *(--cp);
+
+                        if(c==0 || c==0x20){
+                            len--;
+                        } else {
+                            cp[1]=0;
+                            break;
+                        }
+                    }
+
+                    //mav_message_start(len, 6); // len, time to show
+                    mav_msg_disp_loop_cnt = 0;
+                }
+                break;
             default:
                 //Do nothing
                 break;

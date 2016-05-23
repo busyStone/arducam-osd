@@ -26,6 +26,9 @@ void writePanels(){
             if (panel != npanels)
             {
                 if(ISd(panel,Warn_BIT)) panWarn(panWarn_XY[0][panel], panWarn_XY[1][panel]); // this must be here so warnings are always checked
+
+                panMessage(2, 4);
+
                 //Testing bits from 8 bit register A 
                 if(ISa(panel,Cen_BIT)) panCenter(panCenter_XY[0][panel], panCenter_XY[1][panel]);   //4x2
                 if(ISa(panel,Pit_BIT)) panPitch(panPitch_XY[0][panel], panPitch_XY[1][panel]); //5x1
@@ -250,6 +253,7 @@ int change_val(int value, int address)
 // Staus  : done
 
 void panWindSpeed(int first_col, int first_line){
+/*
     osd.setPanel(first_col, first_line);
     osd.openPanel();
 
@@ -258,6 +262,7 @@ void panWindSpeed(int first_col, int first_line){
     showArrow((uint8_t)osd_wind_arrow_rotate_int,1); //print data to OSD
 
     osd.closePanel();
+*/
 }
 
 /* **************************************************************** */
@@ -552,7 +557,55 @@ void panWarn(int first_col, int first_line){
     osd.closePanel();
 }
 
-  
+bool isMessageDisplayed = false;
+void panMessage(int first_col, int first_line){
+
+    char disp_msg[MAX_MSG_SIZE + 1];
+    unsigned long  cur_ms = millis();
+
+    if(mav_message[0] && mav_msg_disp_loop_cnt < LOOP_CNT_DISP_DUR) {
+        //char sign;
+
+        //if(mav_msg_severity <= MAV_SEVERITY_CRITICAL) sign='!';
+        //else sign=0;
+
+        mav_msg_disp_loop_cnt++;
+
+        int8_t diff = MAX_MSG_SIZE - mav_msg_len; // can it fit to screen?
+        if( diff >= 0) {        // yes! message less than screen
+            first_col += (byte)diff/2;
+
+            for (byte i = 0; i < mav_msg_len; i++){
+                disp_msg[i] = mav_message[i];
+            }
+            disp_msg[mav_msg_len] = 0;
+        } else {                // message don't fit, animate
+            for (byte i = 0; i < MAX_MSG_SIZE; i++){
+                disp_msg[i] = mav_message[i];
+            }
+            disp_msg[MAX_MSG_SIZE] = 0;
+        }
+
+        // let's print needed part of message
+        osd.printf("%s",disp_msg);
+
+        isMessageDisplayed = true;
+    } else {
+        mav_message[0]=0; // no message
+        mav_msg_disp_loop_cnt = 0;
+
+        if (isMessageDisplayed){
+            isMessageDisplayed = false;
+
+            for (byte i = 0; i < MAX_MSG_SIZE; i++){
+                disp_msg[i] = ' ';
+            }
+
+            osd.printf("%s",disp_msg);
+        }
+    }
+}
+
 /* **************************************************************** */
 // Panel  : panThr
 // Needs  : X, Y locations
