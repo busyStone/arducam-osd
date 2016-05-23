@@ -203,8 +203,8 @@ void readPanelSettings() {
     panCALLSIGN_XY[1][panel] = checkPAL(readEEPROM(panCALLSIGN_y_ADDR + offset));
 
     setBit(panD_REG[panel], RSSI_BIT, readEEPROM(panRSSI_en_ADDR + offset));
-    panRSSI_XY[0] = readEEPROM(panRSSI_x_ADDR + offset);
-    panRSSI_XY[1] = checkPAL(readEEPROM(panRSSI_y_ADDR + offset));
+    panRSSI_XY[0][panel] = readEEPROM(panRSSI_x_ADDR + offset);
+    panRSSI_XY[1][panel] = checkPAL(readEEPROM(panRSSI_y_ADDR + offset));
 }
 
 int checkPAL(int line){
