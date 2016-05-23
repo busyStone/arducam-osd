@@ -162,8 +162,7 @@ void read_mavlink(){
                         }
                     }
 
-                    //mav_message_start(len, 6); // len, time to show
-                    mav_msg_disp_loop_cnt = 0;
+                    mav_message_start(len); // len, time to show
                 }
                 break;
             default:

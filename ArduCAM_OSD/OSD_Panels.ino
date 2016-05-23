@@ -370,12 +370,14 @@ void panOff(){
 // Staus  : done
     
   void panTune(int first_col, int first_line){
+    /*
   osd.setPanel(first_col, first_line);
   osd.openPanel();
 
   osd.printf("%c%c%2.0f%c|%c%c%2.0f%c|%c%c%4.0i%c|%c%c%4.0i%c|%c%c%3.0f%c|%c%c%3.0f%c|%c%c%4.0f%c", 0x4E, 0x52, (nav_roll), 0xB0, 0x4E, 0x50, (nav_pitch), 0xB0, 0x4E, 0x48, (nav_bearing), 0xB0, 0x54, 0x42, (wp_target_bearing), 0xB0, 0x41, 0x45, (alt_error * converth), high, 0x58, 0x45, (xtrack_error), 0x6D, 0x41, 0x45, ((aspd_error / 100.0) * converts), spe);
 
   osd.closePanel();
+  */
 }
 
 /* **************************************************************** */
@@ -558,12 +560,22 @@ void panWarn(int first_col, int first_line){
 }
 
 bool isMessageDisplayed = false;
+void panMessageDisp(char* msg, int first_col, int first_line){
+    osd.setPanel(first_col, first_line);
+    osd.openPanel();
+
+    osd.printf("%s",msg);
+
+    osd.closePanel();
+}
+
 void panMessage(int first_col, int first_line){
 
     char disp_msg[MAX_MSG_SIZE + 1];
-    unsigned long  cur_ms = millis();
 
-    if(mav_message[0] && mav_msg_disp_loop_cnt < LOOP_CNT_DISP_DUR) {
+    if(mav_message[0]
+    && (mav_msg_disp_loop_cnt < LOOP_CNT_DISP_DUR
+     || mav_msg_animate_cnt < MAX_ANIMATE_CNT)) { // disp dur time or animate cnt times
         //char sign;
 
         //if(mav_msg_severity <= MAV_SEVERITY_CRITICAL) sign='!';
@@ -579,29 +591,47 @@ void panMessage(int first_col, int first_line){
                 disp_msg[i] = mav_message[i];
             }
             disp_msg[mav_msg_len] = 0;
+
+            mav_msg_animate_cnt= MAX_ANIMATE_CNT;
         } else {                // message don't fit, animate
+
+            mav_msg_animate_loop_cnt++;
+            if (mav_msg_animate_loop_cnt < LOOP_CNT_ANIMATE_NEED){
+                return;
+            }
+
+            mav_msg_animate_loop_cnt = 0;
+
+            if (mav_msg_animate_pos > -diff){
+                mav_msg_animate_pos = 0;
+                mav_msg_animate_cnt++;
+            }
+
             for (byte i = 0; i < MAX_MSG_SIZE; i++){
-                disp_msg[i] = mav_message[i];
+                disp_msg[i] = mav_message[i + mav_msg_animate_pos];
             }
             disp_msg[MAX_MSG_SIZE] = 0;
+
+            mav_msg_animate_pos++;
         }
 
         // let's print needed part of message
-        osd.printf("%s",disp_msg);
+        panMessageDisp(disp_msg, first_col, first_line);
 
         isMessageDisplayed = true;
     } else {
         mav_message[0]=0; // no message
-        mav_msg_disp_loop_cnt = 0;
 
-        if (isMessageDisplayed){
+        mav_message_timer_reset();
+
+        if (isMessageDisplayed){ // to clear
             isMessageDisplayed = false;
 
             for (byte i = 0; i < MAX_MSG_SIZE; i++){
                 disp_msg[i] = ' ';
             }
 
-            osd.printf("%s",disp_msg);
+            panMessageDisp(disp_msg, first_col, first_line);
         }
     }
 }

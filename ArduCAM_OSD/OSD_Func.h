@@ -94,3 +94,17 @@ void setHomeVars(OSD &osd)
 
 }
 
+void mav_message_timer_reset(){
+    mav_msg_disp_loop_cnt = 0;
+    mav_msg_animate_cnt = 0;
+    mav_msg_animate_loop_cnt = 0;
+    mav_msg_animate_pos = 0;
+}
+
+void mav_message_start(byte len){
+    mav_msg_len = len;
+
+    mav_message_timer_reset();
+}
+
+

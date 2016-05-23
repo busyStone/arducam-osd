@@ -186,4 +186,5 @@ byte mav_msg_severity;
 byte mav_msg_animate_cnt;
 byte mav_msg_animate_loop_cnt;
 byte mav_msg_disp_loop_cnt;
+byte mav_msg_animate_pos;
 
