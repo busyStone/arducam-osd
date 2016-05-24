@@ -7,7 +7,7 @@ Visible Sats	2	1	True
 GPS Lock	6	1	True
 GPS Coord	1	14	False
 Heading Rose	17	13	True
-Heading	24	13	True
+Heading	24	12	True
 Heart Beat	14	15	False
 Home Direction	14	1	True
 Home Distance	22	7	True
@@ -15,7 +15,7 @@ WP Direction	25	11	False
 WP Distance	20	11	False
 Altitude	22	6	True
 Home Altitude	22	6	False
-Climb Rate	1	7	False
+Climb Rate	22	9	True
 Battery Percent	3	9	False
 Current	1	12	False
 Velocity	22	10	True
@@ -67,7 +67,7 @@ Channel Raw	1	0	True
 Configuration
 Units	0
 Overspeed	40
-Stall	5
+Stall	0
 Battery	111
 RSSI High	255
 RSSI Low	0
