@@ -631,6 +631,8 @@ void panMessage(int first_col, int first_line){
                 disp_msg[i] = ' ';
             }
 
+            disp_msg[MAX_MSG_SIZE] = 0;
+
             panMessageDisp(disp_msg, first_col, first_line);
         }
     }
