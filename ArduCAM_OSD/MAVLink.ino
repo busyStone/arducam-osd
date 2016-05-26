@@ -8,6 +8,14 @@ static uint8_t crlf_count = 0;
 static int packet_drops = 0;
 static int parse_error = 0;
 
+enum gcs_severity {
+    SEVERITY_LOW=1,
+    SEVERITY_MEDIUM,
+    SEVERITY_HIGH,
+    SEVERITY_CRITICAL,
+    SEVERITY_USER_RESPONSE
+};
+
 void request_mavlink_rates()
 {
     const int  maxStreams = 6;
@@ -146,7 +154,7 @@ void read_mavlink(){
                 break;
             case MAVLINK_MSG_ID_STATUSTEXT:
                 mav_msg_severity = mavlink_msg_statustext_get_severity(&msg);
-                if(MAV_SEVERITY_INFO >= mav_msg_severity) {
+                if(mav_msg_severity > SEVERITY_LOW) {
                     byte len = mavlink_msg_statustext_get_text(&msg, (char *)mav_message);
                     mav_message[len]=0;
 
