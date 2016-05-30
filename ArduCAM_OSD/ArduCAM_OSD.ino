@@ -104,8 +104,8 @@ enum FIRMWARE_VERSION_TYPE
     FIRMWARE_VERSION_TYPE_OFFICIAL=255, /* official stable release | */
     FIRMWARE_VERSION_TYPE_ENUM_END=256, /*  | */
 };
-#define THISFIRMWARE "SkyBorne:OSD v1.0.1"
-#define FIRMWARE_VERSION 1,0,1,FIRMWARE_VERSION_TYPE_OFFICIAL
+#define THISFIRMWARE "SkyBorne:OSD v1.0.1.beta.2"
+#define FIRMWARE_VERSION 1,0,1,FIRMWARE_VERSION_TYPE_BETA + 2
 
 /* **********************************************/
 /* ***************** SETUP() *******************/
