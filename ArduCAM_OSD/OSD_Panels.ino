@@ -12,7 +12,7 @@ void panLogo(){
     osd.setPanel(8, 6);
     osd.openPanel();
 //    osd.printf_P(PSTR("\x20\x20\x20\x20\x20\x20\xba\xbb\xbc\xbd\xbe|\x20\x20\x20\x20\x20\x20\xca\xcb\xcc\xcd\xce|ArduCAM OSD v2.2"));
-    osd.printf_P(PSTR("HUMBIRD OSD"));
+    osd.printf_P(PSTR(DISP_VERSION));
     osd.closePanel();
 }
 
@@ -584,13 +584,18 @@ void panMessage(int first_col, int first_line){
         mav_msg_disp_loop_cnt++;
 
         int8_t diff = MAX_MSG_SIZE - mav_msg_len; // can it fit to screen?
+        int8_t offset;
         if( diff >= 0) {        // yes! message less than screen
-            first_col += (byte)diff/2;
+            // first_col += (byte)diff/2;
+            offset = diff>>1;
+
+            memset(disp_msg, ' ', sizeof(disp_msg));
 
             for (byte i = 0; i < mav_msg_len; i++){
-                disp_msg[i] = mav_message[i];
+                disp_msg[i + offset] = mav_message[i];
             }
-            disp_msg[mav_msg_len] = 0;
+
+            disp_msg[MAX_MSG_SIZE] = 0;
 
             mav_msg_animate_cnt= MAX_ANIMATE_CNT;
         } else {                // message don't fit, animate
