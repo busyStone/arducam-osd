@@ -985,7 +985,7 @@ void panFlightMode(int first_col, int first_line){
         else if (osd_mode == 13) mode_str = "sprt"; //Sport: earth frame rate control
         else if (osd_mode == 14) mode_str = "flip"; //Flip: flip the vehicle on the roll axis
         else if (osd_mode == 15) mode_str = "atun"; //Auto Tune: autotune the vehicle's roll and pitch gains
-        else if (osd_mode == 16) mode_str = "hybr"; //Hybrid: position hold with manual override
+        else if (osd_mode == 16) mode_str = "phld"; //Hybrid: position hold with manual override
     } else if(apm_mav_type == 1){ //ArduPlane
         if (osd_mode == 0)       mode_str = "manu"; //Manual
         else if (osd_mode == 1)  mode_str = "circ"; //Circle
